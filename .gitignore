@@ -1,0 +1,192 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Virtualenv
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Pyenv
+.python-version
+
+# Mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# FastAPI specific
+uploads/
+audio_segments/
+
+# Static files
+staticfiles/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# IntelliJ
+.idea/
+
+# PyCharm
+*.iml
+.idea/
+*.iws
+*.ipr
+out/
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# pytest
+.pytest_cache/
+.cache
+
+# Environments
+.env
+.env.*
+venv/
+venv-3.7/
+venv-3.8/
+venv-3.9/
+env/
+env-3.7/
+env-3.8/
+env-3.9/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pyright
+typings/
+
+# Pylint
+pylint-report.txt
+pylint-*.log
+
+# Bandit
+bandit.yaml
+
+# MyPy
+.mypy_cache/
+
+# Pyre
+.pyre/
+
+# Caches
+*.lock
+*.spec
+*.swp
+*.swo
+*.DS_Store
+*.tar.gz
+*.egg-info
+
+# Pytest
+.pytest_cache/
+
+# Coverage reports
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Local .env files
+.env.local
+.env.*.local
+.env
+
+# Docker
+docker-compose*.yaml
+.dockerignore
+Dockerfile
+.dockerignore
+
+# Kubernetes
+k8s/
+
+# Pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# Anaconda
+*.conda
+*.ipynb
+
+# ipython
+profile_default/
+ipython_config.py
+
+# env
+.envrc

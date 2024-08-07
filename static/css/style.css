@@ -1,0 +1,155 @@
+/* General styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: #333333;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+label {
+    font-size: 1.2em;
+    color: #555555;
+}
+
+input[type="file"] {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Progress bar styles */
+.progress-container {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    display: none;
+}
+
+.progress-bar {
+    height: 30px;
+    width: 0;
+    background-color: #28a745;
+    text-align: center;
+    color: white;
+    line-height: 30px;
+    transition: width 0.3s;
+}
+
+/* Summary container styles */
+.summary-container {
+    padding: 15px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.summary-container span {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 2px 4px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.summary-container .highlight {
+    background-color: #ffeb3b;
+}
+
+/* Audio container styles */
+.audio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+audio {
+    width: 100%;
+    border-radius: 5px;
+    outline: none;
+}
+
+/* Response container styles */
+.response-container {
+    display: none;
+}
+        .progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: #4caf50;
+            width: 0;
+            text-align: center;
+            line-height: 20px;
+            color: white;
+        }
+
+        /* Ensure response container is visible and responsive on mobile */
+        .response-container {
+            margin-top: 20px;
+        }
+
+        .summary-container {
+            margin-bottom: 20px;
+        }
+
+        .audio-container {
+            text-align: center;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }

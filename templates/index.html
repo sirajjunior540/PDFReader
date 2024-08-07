@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Reader</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', path='css/style.css') }}">
+    <style>
+        /* Ensure the progress bar is visible and responsive on mobile */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Reader</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="pdfFile">Upload PDF:</label>
+            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
+            <label for="summarize">Summarize:</label>
+            <input type="checkbox" id="summarize" name="summarize">
+            <div id="autoScrollContainer" style="display:none;">
+                <label for="autoscroll">Auto Scroll:</label>
+                <input type="checkbox" id="autoscroll" name="autoscroll">
+            </div>
+            <button type="submit" id="submitButton">Upload</button>
+        </form>
+        <div id="progress" class="progress-container" style="display:none;">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div id="response" class="response-container" style="display:none;">
+            <div id="summary" class="summary-container"></div>
+            <div id="audioPlayer" class="audio-container">
+                <audio id="audio" controls></audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let websocket;
+        let reconnectInterval = 5000; // Time in milliseconds to wait before reconnecting
+
+        function connectWebSocket() {
+            // Determine the WebSocket protocol based on the current page's protocol
+            const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+
+            // Create the WebSocket URL using the determined protocol
+            const websocketUrl = protocol + "//" + window.location.host + "/ws";
+
+            // Initialize the WebSocket connection
+            websocket = new WebSocket(websocketUrl);
+
+            websocket.onopen = function(event) {
+                console.log('WebSocket connection opened');
+            };
+
+            websocket.onmessage = function(event) {
+                const progressBar = document.getElementById('progress-bar');
+                const progress = event.data;
+                progressBar.style.width = progress + '%';
+                progressBar.innerText = progress + '%';
+                if (progress === '100') {
+                    document.getElementById('response').style.display = 'block';
+                    document.getElementById('progress').style.display = 'none';
+                }
+            };
+
+            websocket.onclose = function(event) {
+                console.log('WebSocket connection closed', event);
+                if (event.code !== 1000) { // 1000 means normal closure
+                    setTimeout(connectWebSocket, reconnectInterval);
+                }
+            };
+
+            websocket.onerror = function(event) {
+                console.error('WebSocket error observed:', event);
+            };
+        }
+
+        document.getElementById('summarize').onchange = function() {
+            const autoScrollContainer = document.getElementById('autoScrollContainer');
+            const submitButton = document.getElementById('submitButton');
+            if (this.checked) {
+                autoScrollContainer.style.display = 'block';
+                submitButton.innerText = 'Upload and Summarize';
+            } else {
+                autoScrollContainer.style.display = 'none';
+                submitButton.innerText = 'Upload';
+            }
+        };
+
+        document.getElementById('uploadForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const formData = new FormData();
+            const pdfFile = document.getElementById('pdfFile').files[0];
+            const autoScroll = document.getElementById('autoscroll').checked;
+            const summarize = document.getElementById('summarize').checked;
+            formData.append('file', pdfFile);
+            formData.append('summarize', summarize);
+            formData.append('auto_scroll', autoScroll);
+
+            document.getElementById('progress').style.display = 'block';
+            const response = await fetch('/upload/', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            const summaryDiv = document.getElementById('summary');
+            summaryDiv.innerHTML = '';
+            if (result.summary) {
+                result.summary.forEach((segment, index) => {
+                    const span = document.createElement('span');
+                    span.innerText = segment + ' ';
+                    span.id = 'segment-' + index;
+                    summaryDiv.appendChild(span);
+                });
+            }
+
+            const audio = document.getElementById('audio');
+            audio.src = `/audio/${result.audio_file}`;
+
+            const timestamps = result.timestamps;
+            audio.ontimeupdate = function() {
+                const currentTime = audio.currentTime * 1000;
+                timestamps.forEach((timestamp, index) => {
+                    if (result.scroll) {
+                        const element = document.getElementById('segment-' + index);
+                        if (currentTime >= timestamp[0] && currentTime < timestamp[1]) {
+                            element.classList.add('highlight');
+                            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        } else {
+                            element.classList.remove('highlight');
+                        }
+                    }
+                });
+            };
+        };
+
+        connectWebSocket();
+    </script>
+</body>
+</html>
